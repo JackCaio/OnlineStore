@@ -11,7 +11,6 @@ export default class ListCategories extends Component {
   }
 
   componentDidMount() {
-    console.log('lalalal');
     this.categories();
   }
 
