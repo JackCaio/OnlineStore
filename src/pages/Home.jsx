@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import ListCategories from '../components/ListCategories';
 import ProductList from '../components/ProductList';
 import { getProductsFromCategoryAndQuery } from '../services/api';
-import ListCategories from '../components/ ListCategories';
 
 export default class Home extends Component {
   constructor() {
@@ -21,12 +21,13 @@ export default class Home extends Component {
 
   handleInputChange = (event) => {
     const { value, name } = event.target;
+    if (name === 'categoryId') this.searchProducts();
     this.setState({
       [name]: value,
     });
   };
 
-  searchProdQuery = async () => {
+  searchProducts = async () => {
     const { prodSearch, categoryId } = this.state;
     const prods = await getProductsFromCategoryAndQuery(categoryId, prodSearch);
     this.setState({
@@ -35,10 +36,13 @@ export default class Home extends Component {
   };
 
   render() {
-    const { productsList, prodSearch } = this.state;
+    const { productsList, prodSearch, categoryId } = this.state;
     return (
       <div>
-        <ListCategories />
+        <ListCategories
+          categoryId={ categoryId }
+          handleInputChange={ this.handleInputChange }
+        />
         <div style={ { display: 'inline-block' } }>
           <h1>Home</h1>
           <label htmlFor="prodSearch">
@@ -53,11 +57,10 @@ export default class Home extends Component {
             />
             <button
               type="button"
-              onClick={ this.searchProdQuery }
+              onClick={ this.searchProducts }
               data-testid="query-button"
             >
               Buscar
-
             </button>
           </label>
           { (productsList === undefined) && (
