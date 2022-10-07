@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from '../pages/Home';
+import ShoppingCart from './ShoppingCart';
 
 class Content extends React.Component {
   state = { };
@@ -8,8 +9,8 @@ class Content extends React.Component {
   render() {
     return (
       <Switch>
-        <Route path="/" component={ Home } />
-
+        <Route exact path="/" component={ Home } />
+        <Route path="/shoppingCart" component={ ShoppingCart } />
       </Switch>
 
     );
