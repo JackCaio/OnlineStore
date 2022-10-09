@@ -26,15 +26,7 @@ export default class ListCategories extends Component {
     const { categories } = this.state;
     const { categoryId, handleInputChange } = this.props;
     return (
-      <div
-        style={
-          { height: '100vh',
-            width: '300px',
-            marginRight: '50px',
-            display: 'inline-block',
-            backgroundColor: 'blue' }
-        }
-      >
+      <div className="category__list">
         <h1>ListCategories</h1>
         {
           categories.map((category) => (

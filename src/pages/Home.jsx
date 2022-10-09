@@ -38,12 +38,12 @@ export default class Home extends Component {
   render() {
     const { productsList, prodSearch, categoryId } = this.state;
     return (
-      <div>
+      <div className="home__display">
         <ListCategories
           categoryId={ categoryId }
           handleInputChange={ this.handleInputChange }
         />
-        <div style={ { display: 'inline-block' } }>
+        <div className="home__content">
           <h1>Home</h1>
           <label htmlFor="prodSearch">
             <input
@@ -69,14 +69,14 @@ export default class Home extends Component {
             </p>
           ) }
           {Array.isArray(productsList) && <ProductList products={ productsList } />}
+          <button
+            type="button"
+            data-testid="shopping-cart-button"
+            onClick={ this.handleAddToShoppingCart }
+          >
+            Comprar
+          </button>
         </div>
-        <button
-          type="button"
-          data-testid="shopping-cart-button"
-          onClick={ this.handleAddToShoppingCart }
-        >
-          Comprar
-        </button>
       </div>
     );
   }
