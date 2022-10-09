@@ -23,11 +23,21 @@ body {
 
 .home__content {
   grid-area: content;
-  padding-left: 20px;
+  padding: 0 20px;
 }
 
 header {
   background-color: red;
   grid-area: header;
   height: 70px;
+}
+
+.product__list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.product__list div {
+  background-color: green;
 }
