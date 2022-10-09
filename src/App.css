@@ -9,7 +9,7 @@ body {
 
 .home__display {
   display: grid;
-  grid-template-areas: 'sidenav content';
+  grid-template-areas: 'header header' 'sidenav content';
   grid-template-columns: 300px auto;
 }
 
@@ -24,4 +24,10 @@ body {
 .home__content {
   grid-area: content;
   padding-left: 20px;
+}
+
+header {
+  background-color: red;
+  grid-area: header;
+  height: 70px;
 }

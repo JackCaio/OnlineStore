@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import Header from '../components/Header';
 import ListCategories from '../components/ListCategories';
 import ProductList from '../components/ProductList';
 import { getProductsFromCategoryAndQuery } from '../services/api';
@@ -39,6 +40,7 @@ export default class Home extends Component {
     const { productsList, prodSearch, categoryId } = this.state;
     return (
       <div className="home__display">
+        <Header />
         <ListCategories
           categoryId={ categoryId }
           handleInputChange={ this.handleInputChange }
