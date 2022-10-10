@@ -1,29 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getProductById } from '../services/api';
 
 class ProductCard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      product: undefined,
+    };
+  }
+
+  async componentDidMount() {
+    const { match: { params: { id } } } = this.props;
+    const request = await getProductById(id);
+    this.setState({
+      product: request,
+    });
+  }
+
   handleAddToShoppingCart = () => {
     const { history } = this.props;
     history.push('/shoppingCart');
   };
 
   render() {
-    const {
-      title,
-      image,
-      price,
-    } = this.props;
-
+    const { product } = this.state;
+    if (!product) {
+      return <p>Carregando...</p>;
+    }
     return (
       <main>
-        <h3 data-testid="product-detail-name">{ title }</h3>
+        <h3 data-testid="product-detail-name">{ product.title }</h3>
         <div data-testid="product-detail-image">
-          <img src={ image } alt={ title } />
+          <img src={ product.thumbnail } alt={ product.title } />
         </div>
         <div>
           <p data-testid="product-detail-price">
             <span className="product-detail-price-symbol">{ 'R$ '}</span>
-            {Math.floor(price * 100) / 100 }
+            {Math.floor(product.price * 100) / 100 }
           </p>
         </div>
         <button

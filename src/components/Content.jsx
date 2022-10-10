@@ -12,7 +12,7 @@ class Content extends React.Component {
       <Switch>
         <Route exact path="/" component={ Home } />
         <Route path="/shoppingCart" component={ ShoppingCart } />
-        <Route path="/productCard" component={ ProductCard } />
+        <Route path="/productCard/:id" component={ ProductCard } />
       </Switch>
 
     );
