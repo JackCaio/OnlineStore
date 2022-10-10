@@ -1,19 +1,23 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from '../pages/Home';
-import ShoppingCart from './ShoppingCart';
-import ProductCard from './ProductCard';
+import ProductCard from '../pages/ProductCard';
+import ShoppingCart from '../pages/ShoppingCart';
+import Header from './Header';
 
 class Content extends React.Component {
   state = { };
 
   render() {
     return (
-      <Switch>
-        <Route exact path="/" component={ Home } />
-        <Route path="/shoppingCart" component={ ShoppingCart } />
-        <Route path="/productCard/:id" component={ ProductCard } />
-      </Switch>
+      <>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={ Home } />
+          <Route path="/shoppingCart" component={ ShoppingCart } />
+          <Route path="/productCard/:id" component={ ProductCard } />
+        </Switch>
+      </>
 
     );
   }

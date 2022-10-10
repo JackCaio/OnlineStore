@@ -6,7 +6,13 @@ export default class Header extends Component {
     return (
       <header>
         Front End Store
-        <Link to="/">Redirect</Link>
+        <Link
+          data-testid="shopping-cart-button"
+          to="/shoppingCart"
+        >
+          Redirect
+
+        </Link>
       </header>
     );
   }
