@@ -10,7 +10,7 @@ export default class Product extends Component {
         <img src={ thumbnail } alt={ title } />
         <p>{title}</p>
         <p>{price}</p>
-        <Link to="/productCard" data-testid="product-detail-link">Detalhes</Link>
+        <Link to="/productCard" data-testid="product-detail-link">Detalhe</Link>
       </div>
     );
   }
