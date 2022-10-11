@@ -1,4 +1,5 @@
 import React from 'react';
+import CartItem from '../components/CartItem';
 
 class ShoppingCart extends React.Component {
   constructor() {
@@ -9,8 +10,43 @@ class ShoppingCart extends React.Component {
     };
   }
 
+  addQuantity = (id) => {
+    const { cartList } = this.state;
+    const index = cartList.map((prod) => prod.id).indexOf(id);
+    cartList[index].quantityPurchased += 1;
+    this.setState({
+      cartList,
+    });
+    localStorage.setItem('products', JSON.stringify(cartList));
+  };
+
+  subQuantity = (id) => {
+    const { cartList } = this.state;
+    const index = cartList.map((prod) => prod.id).indexOf(id);
+    if (cartList[index].quantityPurchased > 1) {
+      cartList[index].quantityPurchased -= 1;
+      this.setState({
+        cartList,
+      });
+      localStorage.setItem('products', JSON.stringify(cartList));
+    }
+  };
+
+  removeItem = (id) => {
+    const { cartList } = this.state;
+    const cart = cartList.filter((prod) => prod.id !== id);
+    this.setState({
+      cartList: cart,
+    });
+    localStorage.setItem('products', JSON.stringify(cart));
+  };
+
   render() {
     const { cartList } = this.state;
+    const itemHandler = {
+      addQuantity: this.addQuantity,
+      subQuantity: this.subQuantity,
+      removeItem: this.removeItem };
     return (
       <main>
         {
@@ -18,23 +54,11 @@ class ShoppingCart extends React.Component {
             <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
           ) : (
             cartList.map((product) => (
-              <div key={ product.id }>
-                <div style={ { display: 'inline-block' } }>
-                  <img src={ product.thumbnail } alt={ product.title } />
-                </div>
-                <div style={ { display: 'inline-block' } }>
-                  <p
-                    data-testid="shopping-cart-product-name"
-                  >
-                    {`nome ${product.title}`}
-                  </p>
-                  <p
-                    data-testid="shopping-cart-product-quantity"
-                  >
-                    {`quantidade: ${product.quantityPurchased}`}
-                  </p>
-                </div>
-              </div>
+              <CartItem
+                key={ product.id }
+                product={ product }
+                itemHandler={ itemHandler }
+              />
             ))
           )
         }
