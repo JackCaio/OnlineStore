@@ -3,15 +3,18 @@ import React, { Component } from 'react';
 
 export default class CartItem extends Component {
   handleQuantity = (event) => {
-    const { product: { id }, quantity } = this.props;
+    const { product: { id }, itemHandler } = this.props;
     const { name } = event.target;
     switch (name) {
     case 'plus':
-      quantity.addQuantity(id);
+      itemHandler.addQuantity(id);
       break;
     case 'minus':
+      itemHandler.subQuantity(id);
+      break;
+    case 'remove':
     default:
-      quantity.subQuantity(id);
+      itemHandler.removeItem(id);
     }
   };
 
@@ -48,6 +51,14 @@ export default class CartItem extends Component {
           +
 
         </button>
+        <button
+          name="remove"
+          type="button"
+          onClick={ this.handleQuantity }
+          data-testid="remove-product"
+        >
+          Remove
+        </button>
       </div>
     );
   }
@@ -60,8 +71,9 @@ CartItem.propTypes = {
     thumbnail: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
-  quantity: PropTypes.shape({
+  itemHandler: PropTypes.shape({
     addQuantity: PropTypes.func,
     subQuantity: PropTypes.func,
+    removeItem: PropTypes.func,
   }).isRequired,
 };
