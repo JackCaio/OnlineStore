@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
-import AddtoCart from '../services/AddToCart';
 
 class ProductCard extends React.Component {
   constructor() {
@@ -9,6 +8,7 @@ class ProductCard extends React.Component {
     this.state = {
       product: undefined,
     };
+    this.setStorageCart = this.setStorageCart.bind(this);
   }
 
   async componentDidMount() {
@@ -17,6 +17,30 @@ class ProductCard extends React.Component {
     this.setState({
       product: request,
     });
+  }
+
+  setStorageCart() {
+    const { product } = this.state;
+    if (localStorage.getItem('products') === null) {
+      product.quantityPurchased = 1;
+      localStorage.setItem('products', JSON.stringify([product]));
+    } else {
+      const list = JSON.parse(localStorage.getItem('products'));
+      const contains = list.some((prod) => (prod.id === product.id));
+      if (contains) {
+        list.forEach((prodCrr, index) => {
+          if (prodCrr.id === product.id) {
+            const productSelected = { ...prodCrr };
+            productSelected.quantityPurchased += 1;
+            console.log(list.splice(index, 1, productSelected));
+          }
+        });
+        localStorage.setItem('products', JSON.stringify(list));
+      } else {
+        product.quantityPurchased = 1;
+        localStorage.setItem('products', JSON.stringify([...list, product]));
+      }
+    }
   }
 
   handleAddToShoppingCart = () => {
@@ -44,7 +68,6 @@ class ProductCard extends React.Component {
         </div>
         <button
           type="button"
-          data-testid="shopping-cart-button"
           onClick={ this.handleAddToShoppingCart }
         >
           Carrinho de compras
@@ -53,7 +76,7 @@ class ProductCard extends React.Component {
         <button
           type="button"
           data-testid="product-detail-add-to-cart"
-          onClick={ () => AddtoCart(product.title) }
+          onClick={ this.setStorageCart }
         >
           Adicionar ao carrinho
         </button>

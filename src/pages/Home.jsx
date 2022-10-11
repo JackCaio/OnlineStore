@@ -14,11 +14,6 @@ export default class Home extends Component {
     };
   }
 
-  handleAddToShoppingCart = () => {
-    const { history } = this.props;
-    history.push('/shoppingCart');
-  };
-
   handleInputChange = (event) => {
     const { value, name } = event.target;
     if (name === 'categoryId') this.searchProducts();
@@ -69,13 +64,6 @@ export default class Home extends Component {
             </p>
           ) }
           {Array.isArray(productsList) && <ProductList products={ productsList } />}
-          <button
-            type="button"
-            data-testid="shopping-cart-button"
-            onClick={ this.handleAddToShoppingCart }
-          >
-            Comprar
-          </button>
         </div>
       </div>
     );
