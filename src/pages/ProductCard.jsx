@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
+import AddtoCart from '../services/AddToCart';
 
 class ProductCard extends React.Component {
   constructor() {
@@ -25,6 +26,7 @@ class ProductCard extends React.Component {
 
   render() {
     const { product } = this.state;
+
     if (!product) {
       return <p>Carregando...</p>;
     }
@@ -47,6 +49,15 @@ class ProductCard extends React.Component {
         >
           Carrinho de compras
         </button>
+
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ () => AddtoCart(product.title) }
+        >
+          Adicionar ao carrinho
+        </button>
+        ;
       </main>
     );
   }
@@ -59,6 +70,7 @@ ProductCard.propTypes = {
   title: PropTypes.string,
   image: PropTypes.string,
   price: PropTypes.number,
+  addtoCart: PropTypes.func,
 }.isRequired;
 
 export default ProductCard;
