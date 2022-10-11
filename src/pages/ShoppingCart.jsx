@@ -4,7 +4,8 @@ class ShoppingCart extends React.Component {
   constructor() {
     super();
     this.state = {
-      cartList: [],
+      cartList: (localStorage.getItem('products'))
+        ? localStorage.getItem('products') : [],
     };
   }
 
