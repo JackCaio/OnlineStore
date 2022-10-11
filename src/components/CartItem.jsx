@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 
 export default class CartItem extends Component {
   handleQuantity = (event) => {
-    const { quantity } = this.props;
+    const { product: { id }, quantity } = this.props;
     const { name } = event.target;
     switch (name) {
     case 'plus':
-      quantity.addQuantity();
+      quantity.addQuantity(id);
       break;
     case 'minus':
     default:
-      quantity.remQuantity();
+      quantity.subQuantity(id);
     }
   };
 
@@ -27,11 +27,27 @@ export default class CartItem extends Component {
             {`nome ${product.title}`}
           </p>
           <p data-testid="shopping-cart-product-quantity">
-            {`quantidade: ${product.quantityPurchased}`}
+            {product.quantityPurchased}
           </p>
         </div>
-        <button name="minus" type="button" onClick={ this.handleQuantity }>-</button>
-        <button name="plus" type="button" onClick={ this.handleQuantity }>+</button>
+        <button
+          name="minus"
+          type="button"
+          onClick={ this.handleQuantity }
+          data-testid="product-decrease-quantity"
+        >
+          -
+
+        </button>
+        <button
+          name="plus"
+          type="button"
+          onClick={ this.handleQuantity }
+          data-testid="product-increase-quantity"
+        >
+          +
+
+        </button>
       </div>
     );
   }
@@ -39,12 +55,13 @@ export default class CartItem extends Component {
 
 CartItem.propTypes = {
   product: PropTypes.shape({
+    id: PropTypes.string,
     quantityPurchased: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
   quantity: PropTypes.shape({
     addQuantity: PropTypes.func,
-    remQuantity: PropTypes.func,
+    subQuantity: PropTypes.func,
   }).isRequired,
 };

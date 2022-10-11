@@ -10,17 +10,31 @@ class ShoppingCart extends React.Component {
     };
   }
 
-  addQuantity = () => {
-    console.log('add');
+  addQuantity = (id) => {
+    const { cartList } = this.state;
+    const index = cartList.map((prod) => prod.id).indexOf(id);
+    cartList[index].quantityPurchased += 1;
+    this.setState({
+      cartList,
+    });
+    localStorage.setItem('products', JSON.stringify(cartList));
   };
 
-  remQuantity = () => {
-    console.log('rem');
+  subQuantity = (id) => {
+    const { cartList } = this.state;
+    const index = cartList.map((prod) => prod.id).indexOf(id);
+    if (cartList[index].quantityPurchased > 1) {
+      cartList[index].quantityPurchased -= 1;
+      this.setState({
+        cartList,
+      });
+      localStorage.setItem('products', JSON.stringify(cartList));
+    }
   };
 
   render() {
     const { cartList } = this.state;
-    const quantity = { addQuantity: this.addQuantity, remQuantity: this.remQuantity };
+    const quantity = { addQuantity: this.addQuantity, remQuantity: this.subQuantity };
     return (
       <main>
         {
