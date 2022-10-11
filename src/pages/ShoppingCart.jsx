@@ -1,4 +1,5 @@
 import React from 'react';
+import CartItem from '../components/CartItem';
 
 class ShoppingCart extends React.Component {
   constructor() {
@@ -9,8 +10,17 @@ class ShoppingCart extends React.Component {
     };
   }
 
+  addQuantity = () => {
+    console.log('add');
+  };
+
+  remQuantity = () => {
+    console.log('rem');
+  };
+
   render() {
     const { cartList } = this.state;
+    const quantity = { addQuantity: this.addQuantity, remQuantity: this.remQuantity };
     return (
       <main>
         {
@@ -18,23 +28,7 @@ class ShoppingCart extends React.Component {
             <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
           ) : (
             cartList.map((product) => (
-              <div key={ product.id }>
-                <div style={ { display: 'inline-block' } }>
-                  <img src={ product.thumbnail } alt={ product.title } />
-                </div>
-                <div style={ { display: 'inline-block' } }>
-                  <p
-                    data-testid="shopping-cart-product-name"
-                  >
-                    {`nome ${product.title}`}
-                  </p>
-                  <p
-                    data-testid="shopping-cart-product-quantity"
-                  >
-                    {`quantidade: ${product.quantityPurchased}`}
-                  </p>
-                </div>
-              </div>
+              <CartItem key={ product.id } product={ product } quantity={ quantity } />
             ))
           )
         }
