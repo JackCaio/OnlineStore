@@ -11,7 +11,7 @@ export default class Product extends Component {
   setStorageCart() {
     const { product } = this.props;
     if (localStorage.getItem('products') === null) {
-      product.quantityPurchased = 0;
+      product.quantityPurchased = 1;
       localStorage.setItem('products', JSON.stringify([product]));
     } else {
       const list = JSON.parse(localStorage.getItem('products'));
@@ -26,7 +26,7 @@ export default class Product extends Component {
         });
         localStorage.setItem('products', JSON.stringify(list));
       } else {
-        product.quantityPurchased = 0;
+        product.quantityPurchased = 1;
         localStorage.setItem('products', JSON.stringify([...list, product]));
       }
     }
