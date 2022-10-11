@@ -11,13 +11,23 @@ export default class Product extends Component {
   setStorageCart() {
     const { product } = this.props;
     if (localStorage.getItem('products') === null) {
-      localStorage.setItem('products', JSON.stringify([product.id]));
+      product.quantityPurchased = 0;
+      localStorage.setItem('products', JSON.stringify([product]));
     } else {
       const list = JSON.parse(localStorage.getItem('products'));
-      if (list.includes(product.id)) {
+      const contains = list.some((prod) => (prod.id === product.id));
+      if (contains) {
+        list.forEach((prodCrr, index) => {
+          if (prodCrr.id === product.id) {
+            const productSelected = { ...prodCrr };
+            productSelected.quantityPurchased += 1;
+            console.log(list.splice(index, 1, productSelected));
+          }
+        });
         localStorage.setItem('products', JSON.stringify(list));
       } else {
-        localStorage.setItem('products', JSON.stringify([...list, product.id]));
+        product.quantityPurchased = 0;
+        localStorage.setItem('products', JSON.stringify([...list, product]));
       }
     }
   }
@@ -46,6 +56,7 @@ export default class Product extends Component {
 
 Product.propTypes = {
   product: PropTypes.shape({
+    quantityPurchased: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.number,
