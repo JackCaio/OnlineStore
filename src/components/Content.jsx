@@ -7,17 +7,55 @@ import ShoppingCart from '../pages/ShoppingCart';
 import Header from './Header';
 
 class Content extends React.Component {
-  state = { };
+  constructor() {
+    super();
+    this.state = {
+      qtdCart: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.attCart();
+  }
+
+  attCart = () => {
+    const cartItems = JSON.parse(localStorage.getItem('products'));
+    if (!cartItems) {
+      this.setState({
+        qtdCart: 0,
+      });
+      return;
+    }
+    const qtdCart = cartItems.reduce((acc, cur) => acc + cur.quantityPurchased, 0);
+    this.setState({
+      qtdCart,
+    });
+  };
 
   render() {
+    const { qtdCart } = this.state;
     return (
       <>
-        <Header />
+        <Header qtdCart={ qtdCart } />
         <Switch>
-          <Route exact path="/" component={ Home } />
-          <Route path="/shoppingCart" component={ ShoppingCart } />
-          <Route path="/productCard/:id" component={ ProductCard } />
-          <Route path="/finaliza" component={ Checkout } />
+          <Route
+            path="/"
+            exact
+            render={ (props) => <Home { ...props } attCart={ this.attCart } /> }
+          />
+          <Route
+            path="/shoppingCart"
+            render={ (props) => <ShoppingCart { ...props } attCart={ this.attCart } /> }
+          />
+          <Route
+            path="/productCard/:id"
+            render={ (props) => <ProductCard { ...props } attCart={ this.attCart } /> }
+          />
+          {/* <Route path="/checkout" component={ Checkout } /> */}
+          <Route
+            path="/checkout"
+            render={ (props) => <Checkout { ...props } attCart={ this.attCart } /> }
+          />
         </Switch>
       </>
 

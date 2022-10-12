@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
@@ -43,6 +44,7 @@ class ShoppingCart extends React.Component {
   };
 
   render() {
+    const { attCart } = this.props;
     const { cartList } = this.state;
     const itemHandler = {
       addQuantity: this.addQuantity,
@@ -59,14 +61,19 @@ class ShoppingCart extends React.Component {
                 key={ product.id }
                 product={ product }
                 itemHandler={ itemHandler }
+                attCart={ attCart }
               />
             ))
           )
         }
-        <Link to="/finaliza" data-testid="checkout-products">Finaliza</Link>
+        <Link to="/checkout" data-testid="checkout-products">Finaliza</Link>
       </main>
     );
   }
 }
+
+ShoppingCart.propTypes = {
+  attCart: PropTypes.func.isRequired,
+};
 
 export default ShoppingCart;

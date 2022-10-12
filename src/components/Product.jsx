@@ -9,7 +9,7 @@ export default class Product extends Component {
   }
 
   setStorageCart() {
-    const { product } = this.props;
+    const { attCart, product } = this.props;
     if (localStorage.getItem('products') === null) {
       product.quantityPurchased = 1;
       localStorage.setItem('products', JSON.stringify([product]));
@@ -17,19 +17,19 @@ export default class Product extends Component {
       const list = JSON.parse(localStorage.getItem('products'));
       const contains = list.some((prod) => (prod.id === product.id));
       if (contains) {
-        list.forEach((prodCrr, index) => {
-          if (prodCrr.id === product.id) {
-            const productSelected = { ...prodCrr };
-            productSelected.quantityPurchased += 1;
-            console.log(list.splice(index, 1, productSelected));
+        const cart = list.map((prod) => {
+          if (prod.id === product.id) {
+            prod.quantityPurchased += 1;
           }
+          return prod;
         });
-        localStorage.setItem('products', JSON.stringify(list));
+        localStorage.setItem('products', JSON.stringify(cart));
       } else {
         product.quantityPurchased = 1;
         localStorage.setItem('products', JSON.stringify([...list, product]));
       }
     }
+    attCart();
   }
 
   render() {
@@ -55,11 +55,12 @@ export default class Product extends Component {
 }
 
 Product.propTypes = {
+  attCart: PropTypes.func.isRequired,
   product: PropTypes.shape({
+    id: PropTypes.string,
+    price: PropTypes.number,
     quantityPurchased: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
-    price: PropTypes.number,
-    id: PropTypes.string,
   }).isRequired,
 };

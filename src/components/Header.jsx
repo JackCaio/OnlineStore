@@ -1,17 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CartIcon } from '../imgs/Cart.svg';
 
 export default class Header extends Component {
-  constructor() {
-    super();
-    this.state = {
-      cartQuant: 0,
-    };
-  }
-
   render() {
-    const { cartQuant } = this.state;
+    const { qtdCart } = this.props;
     return (
       <header
         style={
@@ -28,7 +22,7 @@ export default class Header extends Component {
         >
           <div style={ { position: 'relative' } }>
             <CartIcon />
-            <p className="cartQuant">{cartQuant}</p>
+            <p className="cartQuant" data-testid="shopping-cart-size">{qtdCart}</p>
           </div>
 
         </Link>
@@ -36,3 +30,11 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.defaultProps = {
+  qtdCart: 0,
+};
+
+Header.propTypes = {
+  qtdCart: PropTypes.number,
+};

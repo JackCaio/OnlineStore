@@ -24,7 +24,7 @@ export default class CheckoutForm extends Component {
   };
 
   validaDados = () => {
-    const { push } = this.props;
+    const { push, attCart } = this.props;
     const state = Object.entries(this.state);
     const fields = state.filter((el) => !el.includes('error'));
     const valid = fields.reduce((acc, cur) => {
@@ -38,13 +38,11 @@ export default class CheckoutForm extends Component {
       this.setState({
         error: true,
       });
+      attCart();
       return;
     }
     // valid: true - limpa carrinho, redireciona para home
     localStorage.removeItem('products');
-    // this.setState({
-    //   error: false,
-    // });
     push('/');
   };
 
@@ -184,5 +182,6 @@ export default class CheckoutForm extends Component {
 }
 
 CheckoutForm.propTypes = {
+  attCart: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };
