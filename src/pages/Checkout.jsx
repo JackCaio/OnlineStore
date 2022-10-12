@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CheckoutForm from '../components/CheckoutForm';
 
 export default class Checkout extends Component {
   constructor() {
@@ -23,6 +24,7 @@ export default class Checkout extends Component {
           ))}
           <p>{`Total: R$${total}`}</p>
         </div>
+        <CheckoutForm />
       </div>
     );
   }
