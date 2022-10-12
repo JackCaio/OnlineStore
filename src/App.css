@@ -41,3 +41,16 @@ header {
 .product__list div {
   background-color: green;
 }
+
+.cartQuant {
+  background-color: burlywood;
+  border-radius: 50%;
+  font-size: 70%;
+  height: 40%;
+  margin: 0;
+  position: absolute;
+  right: -5px;
+  text-align: center;
+  top: 0;
+  width: 40%;
+}

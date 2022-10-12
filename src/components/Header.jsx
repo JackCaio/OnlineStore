@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as CartIcon } from '../imgs/Cart.svg';
 
 export default class Header extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cartQuant: 0,
+    };
+  }
+
   render() {
+    const { cartQuant } = this.state;
     return (
       <header
         style={
@@ -13,12 +21,15 @@ export default class Header extends Component {
             padding: '0 20px' }
         }
       >
-        Front End Store
+        <h1 style={ { margin: '0' } }>Front End Store</h1>
         <Link
           data-testid="shopping-cart-button"
           to="/shoppingCart"
         >
-          <CartIcon />
+          <div style={ { position: 'relative' } }>
+            <CartIcon />
+            <p className="cartQuant">{cartQuant}</p>
+          </div>
 
         </Link>
       </header>
