@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
+import FormAvaliation from '../components/FormAvaliation';
 
 class ProductCard extends React.Component {
   constructor() {
@@ -72,7 +73,6 @@ class ProductCard extends React.Component {
         >
           Carrinho de compras
         </button>
-
         <button
           type="button"
           data-testid="product-detail-add-to-cart"
@@ -80,7 +80,7 @@ class ProductCard extends React.Component {
         >
           Adicionar ao carrinho
         </button>
-        ;
+        <FormAvaliation productId={ product.id } />
       </main>
     );
   }
