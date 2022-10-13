@@ -15,7 +15,12 @@ class ShoppingCart extends React.Component {
   addQuantity = (id) => {
     const { cartList } = this.state;
     const index = cartList.map((prod) => prod.id).indexOf(id);
-    cartList[index].quantityPurchased += 1;
+    if (cartList[index].quantityPurchased < cartList[index].available_quantity) {
+      cartList[index].quantityPurchased += 1;
+    } else {
+      cartList.quantityPurchased = { ...cartList.available_quantity };
+    }
+
     this.setState({
       cartList,
     });
