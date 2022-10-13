@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 
 class ShoppingCart extends React.Component {
@@ -62,6 +63,7 @@ class ShoppingCart extends React.Component {
             ))
           )
         }
+        <Link to="/finaliza" data-testid="checkout-products">Finaliza</Link>
       </main>
     );
   }
