@@ -31,6 +31,7 @@ export default class Home extends Component {
   };
 
   render() {
+    const { attCart } = this.props;
     const { productsList, prodSearch, categoryId } = this.state;
     return (
       <div className="home__display">
@@ -63,7 +64,8 @@ export default class Home extends Component {
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>
           ) }
-          {Array.isArray(productsList) && <ProductList products={ productsList } />}
+          {Array.isArray(productsList) && (
+            <ProductList products={ productsList } attCart={ attCart } />)}
         </div>
       </div>
     );
@@ -71,6 +73,7 @@ export default class Home extends Component {
 }
 
 Home.propTypes = {
+  attCart: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

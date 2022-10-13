@@ -4,12 +4,14 @@ import Product from './Product';
 
 export default class ProductList extends Component {
   render() {
+    const { attCart } = this.props;
     const { products } = this.props;
     return (
       <div className="product__list">
         {products.length === 0 && (<h4>Nenhum produto foi encontrado</h4>)}
         {products.length === 0 || products
-          .map((prod) => <Product key={ prod.id } product={ prod } />)}
+          .map((prod) => (
+            <Product key={ prod.id } product={ prod } attCart={ attCart } />))}
       </div>
     );
   }
@@ -20,6 +22,7 @@ ProductList.defaultProps = {
 };
 
 ProductList.propTypes = {
+  attCart: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(PropTypes.shape({
     thumbnail: PropTypes.string,
     title: PropTypes.string,

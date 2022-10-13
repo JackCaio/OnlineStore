@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export default class CartItem extends Component {
   handleQuantity = (event) => {
-    const { product: { id }, itemHandler } = this.props;
+    const { product: { id }, itemHandler, attCart } = this.props;
     const { name } = event.target;
     switch (name) {
     case 'plus':
@@ -16,6 +16,7 @@ export default class CartItem extends Component {
     default:
       itemHandler.removeItem(id);
     }
+    attCart();
   };
 
   render() {
@@ -65,15 +66,16 @@ export default class CartItem extends Component {
 }
 
 CartItem.propTypes = {
+  attCart: PropTypes.func.isRequired,
+  itemHandler: PropTypes.shape({
+    addQuantity: PropTypes.func,
+    removeItem: PropTypes.func,
+    subQuantity: PropTypes.func,
+  }).isRequired,
   product: PropTypes.shape({
     id: PropTypes.string,
     quantityPurchased: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
-  }).isRequired,
-  itemHandler: PropTypes.shape({
-    addQuantity: PropTypes.func,
-    subQuantity: PropTypes.func,
-    removeItem: PropTypes.func,
   }).isRequired,
 };

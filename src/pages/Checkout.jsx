@@ -12,7 +12,7 @@ export default class Checkout extends Component {
   }
 
   render() {
-    const { history } = this.props;
+    const { history, attCart } = this.props;
     const { cartList } = this.state;
     const total = cartList
       .reduce((acc, cur) => acc + (cur.quantityPurchased * cur.price), 0);
@@ -27,13 +27,14 @@ export default class Checkout extends Component {
           ))}
           <p>{`Total: R$${total}`}</p>
         </div>
-        <CheckoutForm push={ history.push } />
+        <CheckoutForm push={ history.push } attCart={ attCart } />
       </div>
     );
   }
 }
 
 Checkout.propTypes = {
+  attCart: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

@@ -21,6 +21,7 @@ class ProductCard extends React.Component {
   }
 
   setStorageCart() {
+    const { attCart } = this.props;
     const { product } = this.state;
     if (localStorage.getItem('products') === null) {
       product.quantityPurchased = 1;
@@ -29,19 +30,19 @@ class ProductCard extends React.Component {
       const list = JSON.parse(localStorage.getItem('products'));
       const contains = list.some((prod) => (prod.id === product.id));
       if (contains) {
-        list.forEach((prodCrr, index) => {
-          if (prodCrr.id === product.id) {
-            const productSelected = { ...prodCrr };
-            productSelected.quantityPurchased += 1;
-            console.log(list.splice(index, 1, productSelected));
+        const cart = list.map((prod) => {
+          if (prod.id === product.id) {
+            prod.quantityPurchased += 1;
           }
+          return prod;
         });
-        localStorage.setItem('products', JSON.stringify(list));
+        localStorage.setItem('products', JSON.stringify(cart));
       } else {
         product.quantityPurchased = 1;
         localStorage.setItem('products', JSON.stringify([...list, product]));
       }
     }
+    attCart();
   }
 
   handleAddToShoppingCart = () => {
@@ -87,6 +88,7 @@ class ProductCard extends React.Component {
 }
 
 ProductCard.propTypes = {
+  attCart: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
