@@ -33,9 +33,29 @@ export default class Product extends Component {
   }
 
   render() {
-    const { product: { thumbnail, title, price, id } } = this.props;
+    const {
+      product: {
+        thumbnail,
+        title,
+        price,
+        id,
+        shipping: { free_shipping: freeShipping },
+      } } = this.props;
     return (
       <div data-testid="product">
+        {
+          (freeShipping) && (
+            <div
+              style={
+                { backgroundColor: 'red',
+                  borderStyle: 'dotted' }
+              }
+            >
+              <h1 data-testid="free-shipping">FRETE GRATIS</h1>
+            </div>
+          )
+        }
+        <p />
         <img src={ thumbnail } alt={ title } />
         <p>{title}</p>
         <p>{price}</p>
@@ -62,5 +82,8 @@ Product.propTypes = {
     quantityPurchased: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
+    shipping: PropTypes.shape({
+      free_shipping: PropTypes.bool,
+    }),
   }).isRequired,
 };
