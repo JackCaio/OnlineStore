@@ -9,6 +9,7 @@ class ProductCard extends React.Component {
     this.state = {
       product: undefined,
     };
+    this.setStorageCart = this.setStorageCart.bind(this);
   }
 
   async componentDidMount() {
@@ -19,6 +20,30 @@ class ProductCard extends React.Component {
     });
   }
 
+  setStorageCart() {
+    const { product } = this.state;
+    if (localStorage.getItem('products') === null) {
+      product.quantityPurchased = 1;
+      localStorage.setItem('products', JSON.stringify([product]));
+    } else {
+      const list = JSON.parse(localStorage.getItem('products'));
+      const contains = list.some((prod) => (prod.id === product.id));
+      if (contains) {
+        list.forEach((prodCrr, index) => {
+          if (prodCrr.id === product.id) {
+            const productSelected = { ...prodCrr };
+            productSelected.quantityPurchased += 1;
+            console.log(list.splice(index, 1, productSelected));
+          }
+        });
+        localStorage.setItem('products', JSON.stringify(list));
+      } else {
+        product.quantityPurchased = 1;
+        localStorage.setItem('products', JSON.stringify([...list, product]));
+      }
+    }
+  }
+
   handleAddToShoppingCart = () => {
     const { history } = this.props;
     history.push('/shoppingCart');
@@ -26,6 +51,7 @@ class ProductCard extends React.Component {
 
   render() {
     const { product } = this.state;
+
     if (!product) {
       return <p>Carregando...</p>;
     }
@@ -43,10 +69,16 @@ class ProductCard extends React.Component {
         </div>
         <button
           type="button"
-          data-testid="shopping-cart-button"
           onClick={ this.handleAddToShoppingCart }
         >
           Carrinho de compras
+        </button>
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.setStorageCart }
+        >
+          Adicionar ao carrinho
         </button>
         <FormAvaliation productId={ product.id } />
       </main>
@@ -61,6 +93,7 @@ ProductCard.propTypes = {
   title: PropTypes.string,
   image: PropTypes.string,
   price: PropTypes.number,
+  addtoCart: PropTypes.func,
 }.isRequired;
 
 export default ProductCard;
